@@ -44,12 +44,12 @@ const Home = ({ }): JSX.Element => {
       <section id="goals">
         {content}
         {courseGoals.length > 0 && (
-        <CourseGoalList
-          items={courseGoals}
-          onDeleteItem={deleteItemHandler}
-        />
-      )
-      }
+          <CourseGoalList
+            items={courseGoals}
+            onDeleteItem={deleteItemHandler}
+          />
+        )
+        }
       </section>
     </div>
   )
