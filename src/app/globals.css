@@ -13,6 +13,10 @@ body {
   background-color: #3f3f3f;
 }
 
+#parag {
+  text-align: 'center'
+}
+
 #goals {
   width: 35rem;
   max-width: 90%;

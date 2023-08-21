@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import CourseGoalList from './components/CourseGoals/CourseGoalList/CourseGoalList';
 import CourseInput from './components/CourseGoals/CourseInput/CourseInput';
+import './globals.css';
 
 const Home = ({ }): JSX.Element => {
 
@@ -27,7 +28,7 @@ const Home = ({ }): JSX.Element => {
   };
 
   let content = (
-    <p style={{ textAlign: 'center' }}>No goals found. Maybe add one?</p>
+    <p id="parag">No goals found. Maybe add one?</p>
   );
 
   if (courseGoals.length > 0) {
@@ -43,13 +44,6 @@ const Home = ({ }): JSX.Element => {
       </section>
       <section id="goals">
         {content}
-        {courseGoals.length > 0 && (
-        <CourseGoalList
-          items={courseGoals}
-          onDeleteItem={deleteItemHandler}
-        />
-      )
-      }
       </section>
     </div>
   )

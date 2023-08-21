@@ -1,22 +1,22 @@
 "use client";
 
-import { useState } from 'react';
-import './CourseInput.css';
+import { FC, useState } from 'react';
 import Button from '../../UI/Button';
+import './CourseInput.css';
 
 type Props = {
     onAddGoal: Function;
 };
 
-const CourseInput: React.FC<Props> = ({ onAddGoal }): JSX.Element => {
+const CourseInput: FC<Props> = ({ onAddGoal }): JSX.Element => {
     const [enteredValue, setEnteredValue] = useState('');
 
-    const goalInputChangeHandler = (event: any) => {
-        setEnteredValue(event.target.value);
+    const goalInputChangeHandler = (e: any) => {
+        setEnteredValue(e.target.value);
     };
 
-    const formSubmitHandler = (event: any) => {
-        event.preventDefault();
+    const formSubmitHandler = (e: any) => {
+        e.preventDefault();
         onAddGoal(enteredValue);
     };
 

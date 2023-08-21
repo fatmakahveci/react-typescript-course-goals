@@ -1,15 +1,15 @@
 "use client";
 
 import './CourseGoalItem.css';
-import { useState } from "react";
+import { FC, ReactNode, useState } from "react";
 
 type Props = {
-    id: any;
+    id: string;
     onDelete: Function;
-    children: any;
+    children: ReactNode;
 };
 
-const CourseGoalItem: React.FC<Props> = ({ onDelete, id, children }): JSX.Element => {
+const CourseGoalItem: FC<Props> = ({ onDelete, id, children }): JSX.Element => {
     const [deleteText, setDeleteText] = useState('');
 
     const deleteHandler = () => {
