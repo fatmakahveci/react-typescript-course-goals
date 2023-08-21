@@ -7,7 +7,7 @@ type Props = {
     children: any;
 };
 
-const Button: React.FC<Props> = ({ type, children }) => {
+const Button: React.FC<Props> = ({ type, children }): JSX.Element => {
     return (
         <button type={type} className="button">
             {children}
