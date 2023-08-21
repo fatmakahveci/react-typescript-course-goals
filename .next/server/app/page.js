@@ -226,11 +226,11 @@ Promise.resolve(/* import() eager */).then(__webpack_require__.t.bind(__webpack_
 /***/ 4843:
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
-Promise.resolve(/* import() eager */).then(__webpack_require__.bind(__webpack_require__, 1893))
+Promise.resolve(/* import() eager */).then(__webpack_require__.bind(__webpack_require__, 5296))
 
 /***/ }),
 
-/***/ 1893:
+/***/ 5296:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -286,8 +286,23 @@ const CourseGoalList_CourseGoalList = ({ items, onDeleteItem })=>{
 
 // EXTERNAL MODULE: ./src/app/components/CourseGoals/CourseInput/CourseInput.css
 var CourseInput = __webpack_require__(4806);
+// EXTERNAL MODULE: ./src/app/components/UI/Button.css
+var Button = __webpack_require__(4579);
+;// CONCATENATED MODULE: ./src/app/components/UI/Button.tsx
+/* __next_internal_client_entry_do_not_use__ default auto */ 
+
+const Button_Button = ({ type, children })=>{
+    return /*#__PURE__*/ jsx_runtime_.jsx("button", {
+        type: type,
+        className: "button",
+        children: children
+    });
+};
+/* harmony default export */ const UI_Button = (Button_Button);
+
 ;// CONCATENATED MODULE: ./src/app/components/CourseGoals/CourseInput/CourseInput.tsx
 /* __next_internal_client_entry_do_not_use__ default auto */ 
+
 
 
 const CourseInput_CourseInput = ({ onAddGoal })=>{
@@ -299,20 +314,26 @@ const CourseInput_CourseInput = ({ onAddGoal })=>{
         event.preventDefault();
         onAddGoal(enteredValue);
     };
-    return /*#__PURE__*/ jsx_runtime_.jsx("form", {
+    return /*#__PURE__*/ (0,jsx_runtime_.jsxs)("form", {
         onSubmit: formSubmitHandler,
-        children: /*#__PURE__*/ jsx_runtime_.jsx("div", {
-            className: "form-control",
-            children: /*#__PURE__*/ (0,jsx_runtime_.jsxs)("label", {
-                children: [
-                    "Course Goal",
-                    /*#__PURE__*/ jsx_runtime_.jsx("input", {
-                        type: "text",
-                        onChange: goalInputChangeHandler
-                    })
-                ]
+        children: [
+            /*#__PURE__*/ jsx_runtime_.jsx("div", {
+                className: "form-control",
+                children: /*#__PURE__*/ (0,jsx_runtime_.jsxs)("label", {
+                    children: [
+                        "Course Goal",
+                        /*#__PURE__*/ jsx_runtime_.jsx("input", {
+                            type: "text",
+                            onChange: goalInputChangeHandler
+                        })
+                    ]
+                })
+            }),
+            /*#__PURE__*/ jsx_runtime_.jsx(UI_Button, {
+                type: "submit",
+                children: "Add Goal"
             })
-        })
+        ]
     });
 };
 /* harmony default export */ const CourseGoals_CourseInput_CourseInput = (CourseInput_CourseInput);
@@ -457,6 +478,13 @@ const __default__ = proxy.default;
 /***/ }),
 
 /***/ 4806:
+/***/ (() => {
+
+
+
+/***/ }),
+
+/***/ 4579:
 /***/ (() => {
 
 

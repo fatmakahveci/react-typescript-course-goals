@@ -27,7 +27,7 @@ const CourseInput: React.FC<Props> = ({ onAddGoal }): JSX.Element => {
                     <input type="text" onChange={goalInputChangeHandler} />
                 </label>
             </div>
-            {/* <Button type="submit">Add Goal</Button> */}
+            <Button type="submit">Add Goal</Button>
         </form>
     );
 };

@@ -4,14 +4,13 @@ import './Button.css';
 
 type Props = {
     type: any;
-    onClick: any;
     children: any;
 };
 
-const Button: React.FC<Props> = ({ type }) => {
+const Button: React.FC<Props> = ({ type, children }) => {
     return (
         <button type={type} className="button">
-            {/* {children} */}
+            {children}
         </button>
     );
 };
