@@ -12,7 +12,7 @@ const Home = ({ }): JSX.Element => {
     { text: 'Finish the course!', id: 'g2' }
   ]);
 
-  const addGoalHandler = (enteredText: any) => {
+  const addGoalHandler = (enteredText: string) => {
     setCourseGoals(prevGoals => {
       const updatedGoals = [...prevGoals];
       updatedGoals.unshift({ text: enteredText, id: Math.random().toString() });
@@ -27,7 +27,7 @@ const Home = ({ }): JSX.Element => {
     });
   };
 
-  let content = (
+  let content: JSX.Element = (
     <p id="parag">No goals found. Maybe add one?</p>
   );
 

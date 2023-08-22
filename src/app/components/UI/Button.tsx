@@ -4,7 +4,7 @@ import { FC, ReactNode } from 'react';
 import './Button.css';
 
 type Props = {
-    type: any;
+    type: "submit";
     children: ReactNode;
 };
 
