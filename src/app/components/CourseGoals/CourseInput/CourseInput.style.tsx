@@ -1,6 +1,10 @@
-import styled from "styled-components";
+import { DetailedHTMLProps, HTMLAttributes } from "react";
+import styled, { IStyledComponent } from "styled-components";
+import { Substitute } from "styled-components/dist/types";
 
-export const FormControl = styled.div<{ $invalid?: boolean }>`
+export const FormControl: IStyledComponent<"web", Substitute<DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>, {
+    $invalid?: boolean | undefined;
+}>> = styled.div<{ $invalid?: boolean }>`
     margin: 0.5rem 0;
 
     & label {
