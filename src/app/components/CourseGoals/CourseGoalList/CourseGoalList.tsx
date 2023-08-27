@@ -1,9 +1,9 @@
 "use client";
 
+import { CourseGoal } from '@/shared/types/Types';
 import { FC } from "react";
 import CourseGoalItem from '../CourseGoalItem/CourseGoalItem';
-import './CourseGoalList.css';
-import { CourseGoal } from '@/shared/types/Types';
+import { GoalList } from "./CourseGoalList.style";
 
 type Props = {
     items: CourseGoal[];
@@ -11,8 +11,8 @@ type Props = {
 }
 
 const CourseGoalList: FC<Props> = ({ items, onDeleteItem }): JSX.Element => {
-    return (
-        <ul className="goal-list">
+    return (<>
+        <GoalList>
             {items.map((goal: CourseGoal) => (
                 <CourseGoalItem
                     key={goal.id}
@@ -22,7 +22,7 @@ const CourseGoalList: FC<Props> = ({ items, onDeleteItem }): JSX.Element => {
                     {goal.text}
                 </CourseGoalItem>
             ))}
-        </ul>
+        </GoalList></>
     );
 };
 
