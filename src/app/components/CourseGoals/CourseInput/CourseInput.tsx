@@ -31,7 +31,7 @@ const CourseInput: FC<Props> = ({ onAddGoal }): JSX.Element => {
 
     return (
         <form onSubmit={formSubmitHandler}>
-            <FormControl $invalid={isValid.toString()}>
+            <FormControl $invalid={isValid}>
                 <label style={{ color: !isValid ? 'red' : 'black' }}>Course Goal
                     <input type="text" onChange={goalInputChangeHandler} />
                 </label>
