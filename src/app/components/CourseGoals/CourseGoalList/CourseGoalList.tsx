@@ -3,7 +3,7 @@
 import { CourseGoal } from '@/shared/types/Types';
 import { FC } from "react";
 import CourseGoalItem from '../CourseGoalItem/CourseGoalItem';
-import "./CourseGoalList.module.css";
+import styles from "./CourseGoalList.module.css";
 
 type Props = {
     items: CourseGoal[];
@@ -12,7 +12,7 @@ type Props = {
 
 const CourseGoalList: FC<Props> = ({ items, onDeleteItem }): JSX.Element => {
     return (
-        <ul className="goal-list">
+        <ul className={`${styles['goal-list']}`}>
             {items.map((goal: CourseGoal) => (
                 <CourseGoalItem
                     key={goal.id}
