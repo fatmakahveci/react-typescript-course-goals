@@ -1,7 +1,7 @@
 "use client";
 
 import { FC, ReactNode, useState } from "react";
-import { GoalItem } from './CourseGoalItem.style';
+import "./CourseGoalItem.module.css";
 
 type Props = {
     id: string;
@@ -18,9 +18,9 @@ const CourseGoalItem: FC<Props> = ({ onDelete, id, children }): JSX.Element => {
     };
 
     return (
-        <GoalItem onClick={deleteHandler}>
+        <li className="goal-item" onClick={deleteHandler}>
             {children}
-        </GoalItem>
+        </li>
     );
 };
 

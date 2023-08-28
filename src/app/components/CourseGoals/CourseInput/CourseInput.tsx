@@ -1,8 +1,8 @@
 "use client";
 
 import { ChangeEvent, FC, FormEvent, useState } from 'react';
-import Button from '../../UI/Button.style';
-import { FormControl } from './CourseInput.style';
+import { Button } from '../../UI/Button';
+import styles from './CourseInput.module.css';
 
 type Props = {
     onAddGoal: Function;
@@ -31,15 +31,14 @@ const CourseInput: FC<Props> = ({ onAddGoal }): JSX.Element => {
 
     return (
         <form onSubmit={formSubmitHandler}>
-            <FormControl $invalid={isValid}>
-                <label style={{ color: !isValid ? 'red' : 'black' }}>Course Goal
+            <div className={`${styles['form-control']} ${!isValid && styles.invalid}`}>
+                <label>Course Goal
                     <input type="text" onChange={goalInputChangeHandler} />
                 </label>
-            </FormControl>
-            <Button>Add Goal</Button>
+            </div>
+            <Button type="submit">Add Goal</Button>
         </form>
     );
 };
 
 export default CourseInput;
-
