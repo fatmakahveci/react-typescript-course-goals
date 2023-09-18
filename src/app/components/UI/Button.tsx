@@ -4,7 +4,7 @@ import styles from './Button.module.css';
 import { FC, ReactNode } from "react";
 
 interface Props {
-    type: "submit";
+    type: 'submit' | 'reset' | 'button' | undefined,
     children: ReactNode;
 }
 
