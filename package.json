@@ -1,6 +1,6 @@
 {
-  "name": "react-expense-tracker",
-  "version": "0.1.0",
+  "name": "react-typescript-course-goals",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -9,33 +9,16 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@emotion/is-prop-valid": "^1.2.1",
-    "@types/node": "20.4.4",
-    "@types/react": "18.2.16",
-    "@types/react-dom": "18.2.7",
-    "autoprefixer": "10.4.14",
-    "eslint": "9.39.5",
-    "eslint-config-next": "16.2.12",
-    "formik": "^2.4.3",
-    "next": "16.2.12",
-    "node-fetch": "^3.3.2",
-    "postcss": "8.5.18",
-    "react": "18.2.0",
-    "react-datepicker": "^4.16.0",
-    "react-dom": "18.2.0",
-    "styled-components": "^6.0.7",
-    "tailwindcss": "3.3.3",
-    "typescript": "5.1.6",
-    "yup": "^1.2.0"
+    "next": "16.3.0",
+    "react": "19.2.4",
+    "react-dom": "19.2.4"
   },
   "devDependencies": {
-    "@types/react-datepicker": "^4.15.0"
-  },
-  "resolutions": {
-    "styled-components": "^5"
-  },
-  "overrides": {
-    "postcss": "8.5.18",
-    "sharp": "0.35.0"
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "eslint": "^9.0.0",
+    "eslint-config-next": "16.3.0",
+    "typescript": "^5.9.0"
   }
 }

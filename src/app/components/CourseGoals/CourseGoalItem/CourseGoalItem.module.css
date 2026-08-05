@@ -1,8 +1,73 @@
 .goal-item {
   margin: 1rem 0;
-  background: #8b005d;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-  color: white;
+  border: 1px solid #d9defd;
+  background: var(--color-surface);
+  box-shadow: 0 8px 24px rgba(28, 39, 69, 0.07);
+  color: var(--color-text);
   padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border-radius: 8px;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  min-width: 0;
   cursor: pointer;
+}
+
+.content input {
+  width: 1.15rem;
+  height: 1.15rem;
+  margin: 0;
+  accent-color: var(--color-primary);
+}
+
+.content span {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.content strong {
+  overflow-wrap: anywhere;
+  font-weight: 550;
+}
+
+.content small {
+  color: var(--color-muted);
+  font-size: 0.75rem;
+}
+
+.completed .content strong {
+  color: var(--color-muted);
+  text-decoration: line-through;
+}
+
+.completed {
+  background: #f8f9fc;
+  box-shadow: none;
+}
+
+.goal-item button {
+  border: 1px solid #c7cdf7;
+  border-radius: 5px;
+  padding: 0.4rem 0.7rem;
+  color: var(--color-primary-dark);
+  background: var(--color-primary-soft);
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.goal-item button:hover,
+.goal-item button:focus-visible {
+  border-color: var(--color-primary);
+  color: white;
+  background: var(--color-primary);
 }

@@ -1,35 +1,101 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Course Goals
 
-## Getting Started
+Next.js, React ve TypeScript ile geliştirilmiş sade bir kurs hedefi takip uygulaması.
 
-First, run the development server:
+Güncel sürüm: **v1.0.0**
+
+## Özellikler
+
+- Yeni kurs hedefi ekleme
+- Hedefleri tamamlandı olarak işaretleme
+- Tüm, aktif ve tamamlanan hedefleri filtreleme
+- Hedefler içinde arama yapma
+- Tamamlanma sayısı ve ilerleme çubuğu
+- Tamamlanan hedefleri topluca temizleme
+- Hedefleri tek tek silme
+- Boş ve yinelenen giriş kontrolü
+- Karakter sınırı ve canlı karakter sayacı
+- Hedeflerin oluşturulma tarihini gösterme
+- Hedefleri tarayıcıda kalıcı olarak saklama
+- Klavye ve ekran okuyucu kullanımına uygun arayüz
+- Mobil ekranlarla uyumlu tasarım
+- Özel renk sistemi ve favicon
+
+> Hedefler tarayıcının yerel depolama alanında saklanır ve sayfa yenilendiğinde korunur.
+
+## Kullanılan Teknolojiler
+
+- Next.js 16
+- React 19
+- TypeScript 5
+- CSS Modules
+- ESLint 9
+
+## Gereksinimler
+
+- Node.js 20.9 veya üzeri
+- npm
+
+## Kurulum
+
+Projeyi klonladıktan sonra proje dizininde bağımlılıkları yükleyin:
+
+```bash
+npm install
+```
+
+Geliştirme sunucusunu başlatın:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Uygulama varsayılan olarak [http://localhost:3000](http://localhost:3000) adresinde açılır.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Komutlar
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```bash
+npm run dev      # Geliştirme sunucusunu başlatır
+npm run build    # Production çıktısı oluşturur
+npm run start    # Production sunucusunu başlatır
+npm run lint     # ESLint kontrollerini çalıştırır
+```
 
-## Learn More
+Production sürümünü yerelde çalıştırmak için:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run build
+npm run start
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Proje Yapısı
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+```text
+src/
+├── app/
+│   ├── components/
+│   │   ├── CourseGoals/
+│   │   │   ├── CourseGoalItem/
+│   │   │   ├── CourseGoalList/
+│   │   │   └── CourseInput/
+│   │   └── UI/
+│   ├── globals.css
+│   ├── icon.svg
+│   ├── layout.tsx
+│   └── page.tsx
+└── shared/
+    └── types/
+```
 
-## Deploy on Vercel
+## Kalite Kontrolleri
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Değişiklik göndermeden önce aşağıdaki komutların başarıyla tamamlandığından emin olun:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-# react-expense-tracker
+```bash
+npm run lint
+npm run build
+```
+
+## Lisans
+
+Bu proje [MIT lisansı](LICENSE.md) ile sunulmaktadır.

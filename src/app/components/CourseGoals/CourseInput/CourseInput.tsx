@@ -1,44 +1,65 @@
 "use client";
 
-import { ChangeEvent, FC, FormEvent, useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { Button } from '../../UI/Button';
 import styles from './CourseInput.module.css';
 
 type Props = {
-    onAddGoal: Function;
+  onAddGoal: (goal: string) => boolean;
 };
 
-const CourseInput: FC<Props> = ({ onAddGoal }): JSX.Element => {
-    const [enteredValue, setEnteredValue] = useState('');
-    const [isValid, setIsValid] = useState(true);
+const MAX_LENGTH = 80;
 
-    const goalInputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        e.preventDefault();
-        if (e.target.value.trim().length > 0) {
-            setIsValid(true);
-        }
-        setEnteredValue(e.target.value);
-    };
+const CourseInput = ({ onAddGoal }: Props) => {
+  const [enteredValue, setEnteredValue] = useState('');
+  const [error, setError] = useState('');
 
-    const formSubmitHandler = (e: FormEvent) => {
-        e.preventDefault();
-        if (enteredValue.trim().length === 0) {
-            setIsValid(false);
-            return;
-        }
-        onAddGoal(enteredValue);
-    };
+  const goalInputChangeHandler = (value: string) => {
+    setEnteredValue(value);
+    if (value.trim()) setError('');
+  };
 
-    return (
-        <form onSubmit={formSubmitHandler}>
-            <div className={`${styles['form-control']} ${!isValid && styles.invalid}`}>
-                <label>Course Goal
-                    <input type="text" onChange={goalInputChangeHandler} />
-                </label>
-            </div>
-            <Button type="submit">Add Goal</Button>
-        </form>
-    );
+  const formSubmitHandler = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const goal = enteredValue.trim();
+
+    if (!goal) {
+      setError('Enter a goal before adding it.');
+      return;
+    }
+
+    if (!onAddGoal(goal)) {
+      setError('This goal is already on your list.');
+      return;
+    }
+
+    setEnteredValue('');
+    setError('');
+  };
+
+  return (
+    <form onSubmit={formSubmitHandler} noValidate>
+      <div className={`${styles['form-control']} ${error ? styles.invalid : ''}`}>
+        <label htmlFor="course-goal">Course goal</label>
+        <input
+          id="course-goal"
+          type="text"
+          value={enteredValue}
+          maxLength={MAX_LENGTH}
+          onChange={(event) => goalInputChangeHandler(event.target.value)}
+          aria-invalid={Boolean(error)}
+          aria-describedby={error ? 'goal-error goal-counter' : 'goal-counter'}
+          autoComplete="off"
+          placeholder="e.g. Complete module 3"
+        />
+        <div className={styles['input-meta']}>
+          <span>{error && <span id="goal-error" className={styles.error}>{error}</span>}</span>
+          <span id="goal-counter" className={styles.counter}>{enteredValue.length}/{MAX_LENGTH}</span>
+        </div>
+      </div>
+      <Button type="submit">Add goal</Button>
+    </form>
+  );
 };
 
 export default CourseInput;

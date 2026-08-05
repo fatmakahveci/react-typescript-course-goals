@@ -2,22 +2,30 @@
   width: 100%;
   font: inherit;
   padding: 0.5rem 1.5rem;
-  border: 1px solid #8b005d;
+  border: 1px solid var(--color-primary);
+  border-radius: 7px;
   color: white;
-  background: #8b005d;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.26);
+  background: var(--color-primary);
+  box-shadow: 0 6px 16px rgba(79, 70, 229, 0.24);
   cursor: pointer;
+  font-weight: 650;
+  transition: background-color 150ms ease, border-color 150ms ease, transform 150ms ease, box-shadow 150ms ease;
 }
 
-.button:focus {
-  outline: none;
+.button:focus-visible {
+  outline: 3px solid rgba(79, 70, 229, 0.22);
+  outline-offset: 2px;
 }
 
 .button:hover,
 .button:active {
-  background: #ac0e77;
-  border-color: #ac0e77;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.26);
+  background: var(--color-primary-dark);
+  border-color: var(--color-primary-dark);
+  box-shadow: 0 8px 20px rgba(55, 48, 163, 0.26);
+}
+
+.button:active {
+  transform: translateY(1px);
 }
 
 @media (min-width: 768px) {

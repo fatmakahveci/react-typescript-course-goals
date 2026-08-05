@@ -1,16 +1,15 @@
 "use client";
 
 import styles from './Button.module.css';
-import { FC, ReactNode } from "react";
+import type { ButtonHTMLAttributes, ReactNode } from "react";
 
-interface Props {
-    type: 'submit' | 'reset' | 'button' | undefined,
-    children: ReactNode;
+interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
+  children: ReactNode;
 }
 
-export const Button: FC<Props> = ({ type, children }) => {
+export const Button = ({ children, ...buttonProps }: Props) => {
     return (
-        <button type={type} className={styles.button}>
+        <button className={styles.button} {...buttonProps}>
             {children}
         </button>
     );

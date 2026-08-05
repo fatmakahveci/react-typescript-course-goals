@@ -1,5 +1,11 @@
-import { ReactNode } from 'react'
-import './globals.css'
+import type { Metadata } from 'next';
+import type { ReactNode } from 'react';
+import './globals.css';
+
+export const metadata: Metadata = {
+  title: 'Course Goals',
+  description: 'A simple course goal tracker built with Next.js and TypeScript.',
+};
 
 export default function RootLayout({
   children,
@@ -8,7 +14,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="{body}">{children}</body>
+      <body>{children}</body>
     </html>
   )
 }
