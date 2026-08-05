@@ -7,7 +7,7 @@
 
 A simple course goal tracker built with Next.js, React, and TypeScript.
 
-Current version: **v1.1.0**
+Current version: **v1.1.1**
 
 ## Features
 

@@ -4,6 +4,14 @@ All notable changes to this project are documented in this file.
 
 ## [Unreleased]
 
+## [1.1.1] - 2026-08-05
+
+### Changed
+
+- Replaced the mismatched Apache license text with the declared MIT license
+- Expanded automated coverage from 5 to 11 user-flow tests
+- Excluded test sources from published package archives
+
 ## [1.1.0] - 2026-08-05
 
 ### Added

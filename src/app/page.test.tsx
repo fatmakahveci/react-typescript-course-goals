@@ -1,5 +1,5 @@
-import { fireEvent, render, screen, within } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
+import { describe, expect, it, vi } from 'vitest';
 import Home from './page';
 
 const addGoal = (text: string) => {
@@ -61,5 +61,83 @@ describe('Course Goals', () => {
     const goal = screen.getByText('Ship the capstone').closest('li');
     expect(within(goal!).getByText('high')).toBeInTheDocument();
     expect(within(goal!).getByText(/Due Jan 15, 2027/)).toBeInTheDocument();
+  });
+
+  it('sorts goals by priority', () => {
+    render(<Home />);
+
+    fireEvent.change(screen.getByLabelText('Priority'), { target: { value: 'low' } });
+    addGoal('Low priority reading');
+    fireEvent.change(screen.getByLabelText('Sort by'), { target: { value: 'priority' } });
+
+    const goalTexts = within(document.querySelector('ul')!).getAllByRole('listitem')
+      .map((item) => item.querySelector('strong')?.textContent);
+    expect(goalTexts).toEqual(['Do all exercises!', 'Finish the course!', 'Low priority reading']);
+  });
+
+  it('shows an overdue indicator for past due dates', () => {
+    render(<Home />);
+
+    fireEvent.change(screen.getByLabelText(/Due date/), { target: { value: '2020-01-01' } });
+    addGoal('Review overdue lesson');
+
+    const goal = screen.getByText('Review overdue lesson').closest('li');
+    expect(within(goal!).getByText(/\(overdue\)/)).toBeInTheDocument();
+  });
+
+  it('migrates goals from an older JSON backup', async () => {
+    render(<Home />);
+    const backup = JSON.stringify([{
+      id: 'legacy-goal',
+      text: 'Imported legacy goal',
+      completed: false,
+      createdAt: '2025-01-01T00:00:00.000Z',
+    }]);
+    const file = new File([backup], 'goals.json', { type: 'application/json' });
+    Object.defineProperty(file, 'text', { value: async () => backup });
+
+    fireEvent.change(screen.getByLabelText('Import JSON'), { target: { files: [file] } });
+
+    expect(await screen.findByText('Imported legacy goal')).toBeInTheDocument();
+    expect(screen.getByText('medium')).toBeInTheDocument();
+    expect(screen.getByText('1 goals restored.')).toBeInTheDocument();
+  });
+
+  it('rejects an invalid JSON backup without replacing goals', async () => {
+    render(<Home />);
+    const file = new File(['not-json'], 'invalid.json', { type: 'application/json' });
+    Object.defineProperty(file, 'text', { value: async () => 'not-json' });
+
+    fireEvent.change(screen.getByLabelText('Import JSON'), { target: { files: [file] } });
+
+    expect(await screen.findByText('No valid goals found in this file.')).toBeInTheDocument();
+    expect(screen.getByText('Do all exercises!')).toBeInTheDocument();
+    expect(screen.getByText('Finish the course!')).toBeInTheDocument();
+  });
+
+  it('exports goals as a JSON download', async () => {
+    render(<Home />);
+    const createObjectURL = vi.fn(() => 'blob:course-goals');
+    const revokeObjectURL = vi.fn();
+    Object.defineProperty(URL, 'createObjectURL', { configurable: true, value: createObjectURL });
+    Object.defineProperty(URL, 'revokeObjectURL', { configurable: true, value: revokeObjectURL });
+    vi.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(() => undefined);
+
+    fireEvent.click(screen.getByRole('button', { name: 'Export JSON' }));
+
+    await waitFor(() => expect(createObjectURL).toHaveBeenCalledOnce());
+    expect(revokeObjectURL).toHaveBeenCalledWith('blob:course-goals');
+    expect(screen.getByText('Backup downloaded.')).toBeInTheDocument();
+  });
+
+  it('clears all completed goals at once', () => {
+    render(<Home />);
+    const goal = screen.getByText('Do all exercises!').closest('li');
+    fireEvent.click(within(goal!).getByRole('checkbox'));
+
+    fireEvent.click(screen.getByRole('button', { name: 'Clear completed' }));
+
+    expect(screen.queryByText('Do all exercises!')).not.toBeInTheDocument();
+    expect(screen.getByText('Finish the course!')).toBeInTheDocument();
   });
 });
