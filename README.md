@@ -1,74 +1,79 @@
 # Course Goals
 
-Next.js, React ve TypeScript ile geliştirilmiş sade bir kurs hedefi takip uygulaması.
+A simple course goal tracker built with Next.js, React, and TypeScript.
 
-Güncel sürüm: **v1.0.0**
+Current version: **v1.0.0**
 
-## Özellikler
+## Features
 
-- Yeni kurs hedefi ekleme
-- Hedefleri tamamlandı olarak işaretleme
-- Tüm, aktif ve tamamlanan hedefleri filtreleme
-- Hedefler içinde arama yapma
-- Tamamlanma sayısı ve ilerleme çubuğu
-- Tamamlanan hedefleri topluca temizleme
-- Hedefleri tek tek silme
-- Boş ve yinelenen giriş kontrolü
-- Karakter sınırı ve canlı karakter sayacı
-- Hedeflerin oluşturulma tarihini gösterme
-- Hedefleri tarayıcıda kalıcı olarak saklama
-- Klavye ve ekran okuyucu kullanımına uygun arayüz
-- Mobil ekranlarla uyumlu tasarım
-- Özel renk sistemi ve favicon
+- Add new course goals
+- Mark goals as completed
+- Filter all, active, and completed goals
+- Search through goals
+- Completion count and progress bar
+- Clear all completed goals
+- Delete individual goals
+- Empty and duplicate entry validation
+- Character limit with a live character counter
+- Goal creation dates
+- Edit existing goals
+- Low, medium, and high priority levels
+- Due dates and overdue indicators
+- Sort by date, priority, or due date
+- JSON backup and restore
+- Persistent browser storage
+- Keyboard and screen reader friendly interface
+- Responsive design for mobile screens
+- Custom color system and favicon
 
-> Hedefler tarayıcının yerel depolama alanında saklanır ve sayfa yenilendiğinde korunur.
+> Goals are stored in the browser's local storage and remain available after the page is refreshed.
 
-## Kullanılan Teknolojiler
+## Tech Stack
 
 - Next.js 16
 - React 19
-- TypeScript 5
+- TypeScript 6
 - CSS Modules
 - ESLint 9
 
-## Gereksinimler
+## Requirements
 
-- Node.js 20.9 veya üzeri
+- Node.js 20.9 or later
 - npm
 
-## Kurulum
+## Installation
 
-Projeyi klonladıktan sonra proje dizininde bağımlılıkları yükleyin:
+After cloning the repository, install the dependencies from the project directory:
 
 ```bash
 npm install
 ```
 
-Geliştirme sunucusunu başlatın:
+Start the development server:
 
 ```bash
 npm run dev
 ```
 
-Uygulama varsayılan olarak [http://localhost:3000](http://localhost:3000) adresinde açılır.
+The application is available at [http://localhost:3000](http://localhost:3000) by default.
 
-## Komutlar
+## Scripts
 
 ```bash
-npm run dev      # Geliştirme sunucusunu başlatır
-npm run build    # Production çıktısı oluşturur
-npm run start    # Production sunucusunu başlatır
-npm run lint     # ESLint kontrollerini çalıştırır
+npm run dev      # Start the development server
+npm run build    # Create a production build
+npm run start    # Start the production server
+npm run lint     # Run ESLint checks
 ```
 
-Production sürümünü yerelde çalıştırmak için:
+To run the production version locally:
 
 ```bash
 npm run build
 npm run start
 ```
 
-## Proje Yapısı
+## Project Structure
 
 ```text
 src/
@@ -87,15 +92,15 @@ src/
     └── types/
 ```
 
-## Kalite Kontrolleri
+## Quality Checks
 
-Değişiklik göndermeden önce aşağıdaki komutların başarıyla tamamlandığından emin olun:
+Before submitting changes, make sure the following commands complete successfully:
 
 ```bash
 npm run lint
 npm run build
 ```
 
-## Lisans
+## License
 
-Bu proje [MIT lisansı](LICENSE.md) ile sunulmaktadır.
+This project is available under the [MIT License](LICENSE.md).

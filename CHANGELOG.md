@@ -1,26 +1,36 @@
 # Changelog
 
-Bu projedeki önemli değişiklikler bu dosyada belgelenir.
+All notable changes to this project are documented in this file.
+
+## [Unreleased]
+
+### Added
+
+- Goal editing
+- Priority levels
+- Due dates and overdue indicators
+- Goal sorting options
+- JSON backup and restore
 
 ## [1.0.0] - 2026-08-05
 
-### Eklendi
+### Added
 
-- Hedef ekleme, silme ve tamamlandı olarak işaretleme
-- Tüm, aktif ve tamamlanan hedef filtreleri
-- Hedef arama ve ilerleme göstergesi
-- Tamamlanan hedefleri topluca temizleme
-- Yerel depolama ile veri kalıcılığı
-- Yinelenen hedef kontrolü ve karakter sayacı
-- Erişilebilir, mobil uyumlu kullanıcı arayüzü
-- Uygulamaya özel favicon
+- Add, delete, and complete goals
+- All, active, and completed goal filters
+- Goal search and progress indicator
+- Clear all completed goals
+- Persistent local storage
+- Duplicate goal validation and character counter
+- Accessible, responsive user interface
+- Custom application favicon
 
-### Değiştirildi
+### Changed
 
-- Next.js 16.3, React 19 ve TypeScript 5 sürümlerine geçildi
-- Renk ve tipografi sistemi yenilendi
-- Proje bağımlılıkları sadeleştirildi
+- Upgraded to Next.js 16.3, React 19, and TypeScript 6
+- Redesigned the color and typography system
+- Simplified project dependencies
 
-### Güvenlik
+### Security
 
-- Bilinen bağımlılık açıkları giderildi
+- Resolved known dependency vulnerabilities

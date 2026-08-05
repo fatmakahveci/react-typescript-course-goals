@@ -1,17 +1,20 @@
 "use client";
 
 import { FormEvent, useState } from 'react';
+import type { GoalDraft, GoalPriority } from '@/shared/types/Types';
 import { Button } from '../../UI/Button';
 import styles from './CourseInput.module.css';
 
 type Props = {
-  onAddGoal: (goal: string) => boolean;
+  onAddGoal: (goal: GoalDraft) => boolean;
 };
 
 const MAX_LENGTH = 80;
 
 const CourseInput = ({ onAddGoal }: Props) => {
   const [enteredValue, setEnteredValue] = useState('');
+  const [priority, setPriority] = useState<GoalPriority>('medium');
+  const [dueDate, setDueDate] = useState('');
   const [error, setError] = useState('');
 
   const goalInputChangeHandler = (value: string) => {
@@ -28,12 +31,14 @@ const CourseInput = ({ onAddGoal }: Props) => {
       return;
     }
 
-    if (!onAddGoal(goal)) {
+    if (!onAddGoal({ text: goal, priority, dueDate: dueDate || null })) {
       setError('This goal is already on your list.');
       return;
     }
 
     setEnteredValue('');
+    setPriority('medium');
+    setDueDate('');
     setError('');
   };
 
@@ -56,6 +61,20 @@ const CourseInput = ({ onAddGoal }: Props) => {
           <span>{error && <span id="goal-error" className={styles.error}>{error}</span>}</span>
           <span id="goal-counter" className={styles.counter}>{enteredValue.length}/{MAX_LENGTH}</span>
         </div>
+      </div>
+      <div className={styles.options}>
+        <label>
+          Priority
+          <select value={priority} onChange={(event) => setPriority(event.target.value as GoalPriority)}>
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+          </select>
+        </label>
+        <label>
+          Due date <span>(optional)</span>
+          <input type="date" value={dueDate} onChange={(event) => setDueDate(event.target.value)} />
+        </label>
       </div>
       <Button type="submit">Add goal</Button>
     </form>

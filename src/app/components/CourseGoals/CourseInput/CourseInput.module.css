@@ -41,6 +41,50 @@
     font-size: 0.8rem;
 }
 
+.options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+}
+
+.options label {
+    color: var(--color-heading);
+    font-size: 0.85rem;
+    font-weight: 650;
+}
+
+.options label span {
+    color: var(--color-muted);
+    font-weight: 450;
+}
+
+.options select,
+.options input {
+    display: block;
+    width: 100%;
+    min-height: 2.5rem;
+    margin-top: 0.35rem;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    padding: 0.4rem 0.55rem;
+    color: var(--color-text);
+    background: #fbfcfe;
+    font: inherit;
+}
+
+.options select:focus,
+.options input:focus {
+    outline: 3px solid rgba(79, 70, 229, 0.16);
+    border-color: var(--color-primary);
+}
+
+@media (max-width: 480px) {
+    .options {
+        grid-template-columns: 1fr;
+    }
+}
+
 .form-control input:focus {
     outline: 3px solid rgba(79, 70, 229, 0.16);
     outline-offset: 1px;

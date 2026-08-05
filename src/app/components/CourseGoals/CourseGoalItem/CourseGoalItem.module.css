@@ -27,7 +27,7 @@
   accent-color: var(--color-primary);
 }
 
-.content span {
+.content > span {
   display: flex;
   min-width: 0;
   flex-direction: column;
@@ -43,6 +43,36 @@
   font-size: 0.75rem;
 }
 
+.priority {
+  display: inline-block;
+  margin-right: 0.45rem;
+  border-radius: 999px;
+  padding: 0.05rem 0.4rem;
+  font-size: 0.675rem;
+  font-weight: 750;
+  line-height: 1.45;
+  text-transform: uppercase;
+}
+
+.low {
+  color: #166534;
+  background: #dcfce7;
+}
+
+.medium {
+  color: #92400e;
+  background: #fef3c7;
+}
+
+.high,
+.overdue {
+  color: var(--color-danger);
+}
+
+.high {
+  background: var(--color-danger-soft);
+}
+
 .completed .content strong {
   color: var(--color-muted);
   text-decoration: line-through;
@@ -51,6 +81,11 @@
 .completed {
   background: #f8f9fc;
   box-shadow: none;
+}
+
+.actions {
+  display: flex;
+  gap: 0.45rem;
 }
 
 .goal-item button {
@@ -63,6 +98,54 @@
   font-size: 0.875rem;
   font-weight: 650;
   cursor: pointer;
+}
+
+.edit-form {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 1fr auto;
+  gap: 0.45rem 0.75rem;
+}
+
+.edit-form > input {
+  min-width: 0;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  padding: 0.5rem 0.65rem;
+  color: var(--color-text);
+  font: inherit;
+}
+
+.edit-form > input:focus {
+  outline: 3px solid rgba(79, 70, 229, 0.16);
+  border-color: var(--color-primary);
+}
+
+.edit-form > small {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  color: var(--color-danger);
+}
+
+.edit-form > div {
+  display: flex;
+  gap: 0.45rem;
+}
+
+@media (max-width: 520px) {
+  .goal-item {
+    align-items: stretch;
+    padding: 1rem;
+    flex-direction: column;
+  }
+
+  .actions {
+    justify-content: flex-end;
+  }
+
+  .edit-form {
+    grid-template-columns: 1fr;
+  }
 }
 
 .goal-item button:hover,

@@ -8,9 +8,10 @@ type Props = {
     items: CourseGoal[];
     onDeleteItem: (id: string) => void;
     onToggleItem: (id: string) => void;
+    onEditItem: (id: string, text: string) => boolean;
 }
 
-const CourseGoalList = ({ items, onDeleteItem, onToggleItem }: Props) => {
+const CourseGoalList = ({ items, onDeleteItem, onToggleItem, onEditItem }: Props) => {
     return (
         <ul className={`${styles['goal-list']}`}>
             {items.map((goal) => (
@@ -19,11 +20,13 @@ const CourseGoalList = ({ items, onDeleteItem, onToggleItem }: Props) => {
                     id={goal.id}
                     completed={goal.completed}
                     createdAt={goal.createdAt}
+                    priority={goal.priority}
+                    dueDate={goal.dueDate}
                     onDelete={onDeleteItem}
                     onToggle={onToggleItem}
-                >
-                    {goal.text}
-                </CourseGoalItem>
+                    onEdit={onEditItem}
+                    text={goal.text}
+                />
             ))}
         </ul>
     );
