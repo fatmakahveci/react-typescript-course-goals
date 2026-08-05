@@ -4,6 +4,14 @@ All notable changes to this project are documented in this file.
 
 ## [Unreleased]
 
+### Added
+
+- Coverage reporting with enforced quality thresholds
+- Playwright end-to-end tests for goal management and persistence
+- Dependabot monitoring for npm and GitHub Actions
+- Structured bug report, feature request, and pull request templates
+- Security policy, contribution guide, and code of conduct
+
 ## [1.1.1] - 2026-08-05
 
 ### Changed

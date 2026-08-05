@@ -8,6 +8,7 @@ export default defineConfig({
     },
   },
   test: {
+    include: ['src/**/*.test.{ts,tsx}'],
     environment: 'jsdom',
     environmentOptions: {
       jsdom: {
@@ -15,5 +16,17 @@ export default defineConfig({
       },
     },
     setupFiles: ['./src/test/setup.ts'],
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'html', 'lcov'],
+      include: ['src/app/**/*.{ts,tsx}'],
+      exclude: ['src/**/*.test.{ts,tsx}', 'src/app/layout.tsx'],
+      thresholds: {
+        branches: 65,
+        functions: 70,
+        lines: 70,
+        statements: 70,
+      },
+    },
   },
 });

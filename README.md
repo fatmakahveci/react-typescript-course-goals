@@ -40,6 +40,8 @@ Current version: **v1.1.1**
 - TypeScript 6
 - CSS Modules
 - ESLint 9
+- Vitest 4
+- Playwright
 
 ## Requirements
 
@@ -71,6 +73,8 @@ npm run start    # Start the production server
 npm run lint     # Run ESLint checks
 npm test         # Run the automated test suite
 npm run test:watch # Run tests in watch mode
+npm run test:coverage # Run tests with coverage thresholds
+npm run test:e2e  # Run Playwright end-to-end tests
 ```
 
 To run the production version locally:
@@ -105,8 +109,17 @@ Before submitting changes, make sure the following commands complete successfull
 
 ```bash
 npm run lint
+npx tsc --noEmit
+npm run test:coverage
+npm run test:e2e
 npm run build
 ```
+
+Every push and pull request to `main` runs these checks automatically in GitHub Actions. Dependabot monitors npm dependencies weekly and GitHub Actions monthly.
+
+## Contributing
+
+Contributions are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md), follow the [Code of Conduct](CODE_OF_CONDUCT.md), and report vulnerabilities through the process in [SECURITY.md](SECURITY.md).
 
 ## License
 

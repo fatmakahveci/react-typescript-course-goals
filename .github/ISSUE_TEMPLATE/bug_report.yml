@@ -1,0 +1,46 @@
+name: Bug report
+description: Report a reproducible problem in Course Goals.
+title: '[Bug]: '
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for helping improve Course Goals.
+  - type: textarea
+    id: description
+    attributes:
+      label: Problem
+      description: Describe what happened and what you expected instead.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open ...
+        2. Click ...
+        3. See ...
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and version
+      placeholder: Chrome 140
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Add screenshots, console output, or other useful details.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Pre-submission checks
+      options:
+        - label: I searched existing issues for this problem.
+          required: true
+        - label: I removed sensitive information from this report.
+          required: true

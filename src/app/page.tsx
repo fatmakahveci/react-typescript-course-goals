@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent, useMemo, useState, useSyncExternalStore } from 'react';
+import { ChangeEvent, useEffect, useMemo, useState, useSyncExternalStore } from 'react';
 import type { CourseGoal, GoalDraft, GoalPriority } from '@/shared/types/Types';
 import CourseGoalList from './components/CourseGoals/CourseGoalList/CourseGoalList';
 import CourseInput from './components/CourseGoals/CourseInput/CourseInput';
@@ -59,6 +59,13 @@ export default function Home() {
   const [searchTerm, setSearchTerm] = useState('');
   const [sort, setSort] = useState<GoalSort>('newest');
   const [backupMessage, setBackupMessage] = useState('');
+
+  useEffect(() => {
+    document.documentElement.dataset.hydrated = 'true';
+    return () => {
+      delete document.documentElement.dataset.hydrated;
+    };
+  }, []);
 
   const updateGoals = (update: (goals: CourseGoal[]) => CourseGoal[]) => {
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(update(courseGoals)));
