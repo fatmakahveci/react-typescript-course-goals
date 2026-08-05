@@ -1,6 +1,6 @@
 {
   "name": "react-typescript-course-goals",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "An accessible course goal tracker built with Next.js, React, and TypeScript.",
   "license": "MIT",
   "author": "Fatma Kahveci",
@@ -39,7 +39,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "next": "16.3.0",
@@ -47,11 +49,15 @@
     "react-dom": "19.2.8"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^7.0.0",
+    "@testing-library/react": "^16.3.2",
     "@types/node": "^22.0.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "eslint": "9.39.5",
     "eslint-config-next": "16.3.0",
-    "typescript": "6.0.3"
+    "jsdom": "^30.0.1",
+    "typescript": "6.0.3",
+    "vitest": "^4.1.10"
   }
 }

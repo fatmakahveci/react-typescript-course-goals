@@ -1,8 +1,13 @@
 # Course Goals
 
+[![Quality](https://github.com/fatmakahveci/react-typescript-course-goals/actions/workflows/quality.yml/badge.svg)](https://github.com/fatmakahveci/react-typescript-course-goals/actions/workflows/quality.yml)
+[![npm version](https://img.shields.io/npm/v/react-typescript-course-goals.svg)](https://www.npmjs.com/package/react-typescript-course-goals)
+[![GitHub release](https://img.shields.io/github/v/release/fatmakahveci/react-typescript-course-goals)](https://github.com/fatmakahveci/react-typescript-course-goals/releases)
+[![License: MIT](https://img.shields.io/badge/License-MIT-4f46e5.svg)](LICENSE.md)
+
 A simple course goal tracker built with Next.js, React, and TypeScript.
 
-Current version: **v1.0.0**
+Current version: **v1.1.0**
 
 ## Features
 
@@ -64,6 +69,8 @@ npm run dev      # Start the development server
 npm run build    # Create a production build
 npm run start    # Start the production server
 npm run lint     # Run ESLint checks
+npm test         # Run the automated test suite
+npm run test:watch # Run tests in watch mode
 ```
 
 To run the production version locally:
