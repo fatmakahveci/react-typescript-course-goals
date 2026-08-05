@@ -1,7 +1,40 @@
 {
   "name": "react-typescript-course-goals",
   "version": "1.0.0",
-  "private": true,
+  "description": "An accessible course goal tracker built with Next.js, React, and TypeScript.",
+  "license": "MIT",
+  "author": "Fatma Kahveci",
+  "keywords": [
+    "nextjs",
+    "react",
+    "typescript",
+    "course-goals",
+    "goal-tracker"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fatmakahveci/react-typescript-course-goals.git"
+  },
+  "bugs": {
+    "url": "https://github.com/fatmakahveci/react-typescript-course-goals/issues"
+  },
+  "homepage": "https://github.com/fatmakahveci/react-typescript-course-goals#readme",
+  "files": [
+    "src",
+    "CHANGELOG.md",
+    "LICENSE.md",
+    "README.md",
+    "eslint.config.mjs",
+    "next-env.d.ts",
+    "next.config.js",
+    "tsconfig.json"
+  ],
+  "engines": {
+    "node": ">=20.9.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
