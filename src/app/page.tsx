@@ -4,10 +4,12 @@ import { ChangeEvent, useEffect, useMemo, useState, useSyncExternalStore } from 
 import type { CourseGoal, GoalDraft, GoalPriority, Subtask } from '@/shared/types/Types';
 import CourseGoalList from './components/CourseGoals/CourseGoalList/CourseGoalList';
 import CourseInput from './components/CourseGoals/CourseInput/CourseInput';
+import GoalStatistics from './components/GoalStatistics/GoalStatistics';
+import PwaControls from './components/PwaControls/PwaControls';
 
 const INITIAL_GOALS: CourseGoal[] = [
-  { text: 'Do all exercises!', id: 'g1', completed: false, createdAt: '2026-08-05T09:00:00.000Z', priority: 'high', dueDate: null, category: 'Practice', subtasks: [] },
-  { text: 'Finish the course!', id: 'g2', completed: false, createdAt: '2026-08-05T09:05:00.000Z', priority: 'medium', dueDate: null, category: 'Course', subtasks: [] },
+  { text: 'Do all exercises!', id: 'g1', completed: false, completedAt: null, createdAt: '2026-08-05T09:00:00.000Z', priority: 'high', dueDate: null, category: 'Practice', subtasks: [] },
+  { text: 'Finish the course!', id: 'g2', completed: false, completedAt: null, createdAt: '2026-08-05T09:05:00.000Z', priority: 'medium', dueDate: null, category: 'Course', subtasks: [] },
 ];
 
 const STORAGE_KEY = 'course-goals';
@@ -16,7 +18,7 @@ const THEME_STORAGE_KEY = 'course-goals-theme';
 const THEME_EVENT = 'course-goals-theme-change';
 const INITIAL_GOALS_JSON = JSON.stringify(INITIAL_GOALS);
 type GoalFilter = 'all' | 'active' | 'completed';
-type GoalSort = 'newest' | 'oldest' | 'priority' | 'due-date';
+type GoalSort = 'manual' | 'newest' | 'oldest' | 'priority' | 'due-date';
 type ThemePreference = 'system' | 'light' | 'dark';
 const PRIORITY_ORDER: Record<GoalPriority, number> = { high: 0, medium: 1, low: 2 };
 
@@ -57,6 +59,9 @@ const parseGoals = (snapshot: string, fallback: CourseGoal[] = INITIAL_GOALS): C
         id: goal.id,
         text: goal.text,
         completed: Boolean(goal.completed),
+        completedAt: goal.completed && typeof goal.completedAt === 'string' && !Number.isNaN(Date.parse(goal.completedAt))
+          ? goal.completedAt
+          : null,
         createdAt: typeof goal.createdAt === 'string' && !Number.isNaN(Date.parse(goal.createdAt))
           ? goal.createdAt
           : new Date(0).toISOString(),
@@ -79,7 +84,7 @@ export default function Home() {
   const courseGoals = useMemo(() => parseGoals(goalsSnapshot), [goalsSnapshot]);
   const [filter, setFilter] = useState<GoalFilter>('all');
   const [searchTerm, setSearchTerm] = useState('');
-  const [sort, setSort] = useState<GoalSort>('newest');
+  const [sort, setSort] = useState<GoalSort>('manual');
   const [backupMessage, setBackupMessage] = useState('');
   const theme = useSyncExternalStore(subscribeToTheme, getThemeSnapshot, getServerThemeSnapshot);
 
@@ -124,6 +129,7 @@ export default function Home() {
         ...draft,
         id: crypto.randomUUID(),
         completed: false,
+        completedAt: null,
         createdAt: new Date().toISOString(),
         subtasks: [],
       },
@@ -153,7 +159,9 @@ export default function Home() {
   const toggleItemHandler = (goalId: string) => {
     updateGoals((previousGoals) =>
       previousGoals.map((goal) =>
-        goal.id === goalId ? { ...goal, completed: !goal.completed } : goal,
+        goal.id === goalId
+          ? { ...goal, completed: !goal.completed, completedAt: goal.completed ? null : new Date().toISOString() }
+          : goal,
       ),
     );
   };
@@ -182,6 +190,19 @@ export default function Home() {
 
   const clearCompletedHandler = () => {
     updateGoals((previousGoals) => previousGoals.filter((goal) => !goal.completed));
+  };
+
+  const moveItemHandler = (sourceId: string, targetId: string) => {
+    if (sourceId === targetId) return;
+    updateGoals((previousGoals) => {
+      const sourceIndex = previousGoals.findIndex((goal) => goal.id === sourceId);
+      const targetIndex = previousGoals.findIndex((goal) => goal.id === targetId);
+      if (sourceIndex < 0 || targetIndex < 0) return previousGoals;
+      const reorderedGoals = [...previousGoals];
+      const [movedGoal] = reorderedGoals.splice(sourceIndex, 1);
+      reorderedGoals.splice(targetIndex, 0, movedGoal);
+      return reorderedGoals;
+    });
   };
 
   const exportGoalsHandler = () => {
@@ -224,6 +245,7 @@ export default function Home() {
         .some((value) => value.toLocaleLowerCase().includes(normalizedSearch));
     });
     return [...filteredGoals].sort((first, second) => {
+      if (sort === 'manual') return 0;
       if (sort === 'oldest') return first.createdAt.localeCompare(second.createdAt);
       if (sort === 'priority') return PRIORITY_ORDER[first.priority] - PRIORITY_ORDER[second.priority];
       if (sort === 'due-date') return (first.dueDate ?? '9999-12-31').localeCompare(second.dueDate ?? '9999-12-31');
@@ -236,14 +258,17 @@ export default function Home() {
       <section id="goal-form" aria-labelledby="page-title">
         <div className="page-heading">
           <h1 id="page-title">Course goals</h1>
-          <label className="theme-control">
-            <span>Theme</span>
-            <select value={theme} onChange={(event) => setThemeHandler(event.target.value as ThemePreference)}>
-              <option value="system">System</option>
-              <option value="light">Light</option>
-              <option value="dark">Dark</option>
-            </select>
-          </label>
+          <div className="header-actions">
+            <PwaControls />
+            <label className="theme-control">
+              <span>Theme</span>
+              <select value={theme} onChange={(event) => setThemeHandler(event.target.value as ThemePreference)}>
+                <option value="system">System</option>
+                <option value="light">Light</option>
+                <option value="dark">Dark</option>
+              </select>
+            </label>
+          </div>
         </div>
         <p className="intro">Keep your learning targets clear and actionable.</p>
         <CourseInput onAddGoal={addGoalHandler} />
@@ -258,6 +283,8 @@ export default function Home() {
             <span style={{ width: `${progress}%` }} />
           </div>
         </div>
+
+        <GoalStatistics goals={courseGoals} />
 
         <div className="goal-tools">
           <label className="search-field">
@@ -277,6 +304,7 @@ export default function Home() {
           <label>
             <span>Sort by</span>
             <select value={sort} onChange={(event) => setSort(event.target.value as GoalSort)}>
+              <option value="manual">Manual</option>
               <option value="newest">Newest</option>
               <option value="oldest">Oldest</option>
               <option value="priority">Priority</option>
@@ -302,6 +330,8 @@ export default function Home() {
             onAddSubtask={addSubtaskHandler}
             onToggleSubtask={toggleSubtaskHandler}
             onDeleteSubtask={deleteSubtaskHandler}
+            onMoveItem={moveItemHandler}
+            manualOrder={sort === 'manual'}
           />
         ) : (
           <p className="empty-state">

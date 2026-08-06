@@ -73,6 +73,12 @@ h1 {
   gap: 1rem;
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
 .theme-control {
   display: flex;
   align-items: center;
@@ -319,6 +325,11 @@ h1 {
   .page-heading {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .header-actions {
+    width: 100%;
+    justify-content: space-between;
   }
 
   .goal-tools {

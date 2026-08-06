@@ -13,6 +13,11 @@
   border-radius: 8px;
 }
 
+.dragging {
+  opacity: 0.55;
+  outline: 2px dashed var(--color-primary);
+}
+
 .content {
   display: flex;
   align-items: center;
@@ -97,7 +102,17 @@
 
 .actions {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
   gap: 0.45rem;
+}
+
+.drag-handle {
+  cursor: grab;
+}
+
+.drag-handle:active {
+  cursor: grabbing;
 }
 
 .goal-item button {
@@ -238,4 +253,12 @@
   border-color: var(--color-primary);
   color: white;
   background: var(--color-primary);
+}
+
+.goal-item button:disabled {
+  border-color: var(--color-border);
+  color: var(--color-muted);
+  background: transparent;
+  cursor: not-allowed;
+  opacity: 0.5;
 }

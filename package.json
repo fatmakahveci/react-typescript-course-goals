@@ -21,6 +21,7 @@
   "homepage": "https://github.com/fatmakahveci/react-typescript-course-goals#readme",
   "files": [
     "src",
+    "public",
     "CHANGELOG.md",
     "LICENSE.md",
     "README.md",
