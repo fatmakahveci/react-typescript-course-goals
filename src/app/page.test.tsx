@@ -177,4 +177,35 @@ describe('Course Goals', () => {
     expect(screen.queryByText('Do all exercises!')).not.toBeInTheDocument();
     expect(screen.getByText('Finish the course!')).toBeInTheDocument();
   });
+
+  it('reorders goals manually and persists the new order', () => {
+    render(<Home />);
+
+    fireEvent.click(screen.getByRole('button', { name: 'Move down: Do all exercises!' }));
+
+    const goalTexts = within(document.querySelector('ul')!).getAllByRole('listitem')
+      .map((item) => item.querySelector('strong')?.textContent);
+    expect(goalTexts).toEqual(['Finish the course!', 'Do all exercises!']);
+    expect(JSON.parse(window.localStorage.getItem('course-goals')!)[0].id).toBe('g2');
+  });
+
+  it('updates the statistics dashboard when a goal is completed', () => {
+    render(<Home />);
+    fireEvent.click(screen.getByText('Statistics'));
+
+    expect(screen.getByText('0%')).toBeInTheDocument();
+    fireEvent.click(within(screen.getByText('Do all exercises!').closest('li')!).getByRole('checkbox'));
+
+    expect(screen.getByText('50%')).toBeInTheDocument();
+    expect(screen.getByText('Completed this week').previousElementSibling).toHaveTextContent('1');
+  });
+
+  it('shows offline status when the connection is unavailable', async () => {
+    Object.defineProperty(window.navigator, 'onLine', { configurable: true, value: false });
+    render(<Home />);
+
+    expect(await screen.findByRole('status')).toHaveTextContent('Offline');
+
+    Object.defineProperty(window.navigator, 'onLine', { configurable: true, value: true });
+  });
 });

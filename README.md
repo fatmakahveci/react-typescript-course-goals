@@ -27,14 +27,19 @@ Current version: **v1.3.0**
 - Low, medium, and high priority levels
 - Due dates and overdue indicators
 - Sort by date, priority, or due date
+- Reorder goals with drag-and-drop or accessible move controls
+- View completion, weekly, overdue, priority, category, and subtask statistics
 - JSON backup and restore
 - Persistent browser storage
 - Keyboard and screen reader friendly interface
 - Responsive design for mobile screens
 - Light, dark, and system theme modes
+- Installable Progressive Web App with offline support
 - Custom color system and favicon
 
 > Goals are stored in the browser's local storage and remain available after the page is refreshed.
+
+The install prompt and service worker are enabled in production builds. After the first online visit, the application shell remains available offline; goal data continues to use local browser storage.
 
 ## Tech Stack
 
@@ -97,13 +102,19 @@ src/
 │   │   │   ├── CourseGoalItem/
 │   │   │   ├── CourseGoalList/
 │   │   │   └── CourseInput/
+│   │   ├── GoalStatistics/
+│   │   ├── PwaControls/
 │   │   └── UI/
 │   ├── globals.css
 │   ├── icon.svg
 │   ├── layout.tsx
+│   ├── manifest.ts
 │   └── page.tsx
 └── shared/
     └── types/
+public/
+├── icons/
+└── sw.js
 ```
 
 ## Quality Checks

@@ -4,9 +4,21 @@ All notable changes to this project are documented in this file.
 
 ## [Unreleased]
 
+### Added
+
+- Installable Progressive Web App with a same-origin offline cache
+- Goal statistics for completion, weekly activity, overdue work, priorities, categories, and subtasks
+- Persistent manual goal ordering with drag-and-drop and accessible move controls
+
+### Changed
+
+- Expanded automated coverage for PWA assets, offline reloads, statistics, and goal ordering
+
 ### Security
 
 - Added token-free npm trusted publishing with GitHub Actions OIDC and automatic provenance
+- Added clickjacking, MIME sniffing, referrer, browser capability, and opener isolation headers
+- Restricted offline caching to successful same-origin GET responses
 
 ## [1.3.0] - 2026-08-06
 

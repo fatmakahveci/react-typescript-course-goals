@@ -81,3 +81,48 @@ test('uses categories, subtasks, and a persistent dark theme', async ({ page }) 
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
   await expect(page.getByText('Practice generics')).toBeVisible();
 });
+
+test('reorders goals and updates statistics', async ({ page }, testInfo) => {
+  const sourceGoal = page.getByRole('listitem').filter({ hasText: 'Do all exercises!' }).first();
+  const targetGoal = page.getByRole('listitem').filter({ hasText: 'Finish the course!' }).first();
+  if (testInfo.project.name === 'desktop-chrome') {
+    await sourceGoal.getByRole('button', { name: 'Drag to reorder: Do all exercises!' }).dragTo(targetGoal);
+  } else {
+    await sourceGoal.getByRole('button', { name: 'Move down: Do all exercises!' }).click();
+  }
+  const goals = page.locator('#goals > ul > li');
+  await expect(goals.first()).toContainText('Finish the course!');
+
+  await page.reload();
+  await expect(page.locator('#goals > ul > li').first()).toContainText('Finish the course!');
+
+  await page.getByText('Statistics').click();
+  await page.getByText('Finish the course!').click();
+  await expect(page.getByText('50%', { exact: true })).toBeVisible();
+  await expect(page.getByText('Completed this week').locator('..')).toContainText('1');
+});
+
+test('provides an installable app shell that works offline', async ({ page, context, request }) => {
+  const documentResponse = await request.get('/');
+  expect(documentResponse.headers()['x-content-type-options']).toBe('nosniff');
+  expect(documentResponse.headers()['x-frame-options']).toBe('DENY');
+  const manifestResponse = await request.get('/manifest.webmanifest');
+  expect(manifestResponse.ok()).toBeTruthy();
+  const manifest = await manifestResponse.json();
+  expect(manifest.name).toBe('Course Goals');
+  expect(manifest.display).toBe('standalone');
+  expect(manifest.icons).toHaveLength(3);
+  expect((await request.get('/icons/icon-192.png')).ok()).toBeTruthy();
+  expect((await request.get('/icons/icon-512.png')).ok()).toBeTruthy();
+
+  await page.evaluate(async () => navigator.serviceWorker.register('/sw.js'));
+  await page.evaluate(async () => { await navigator.serviceWorker.ready; });
+  await page.reload();
+  await context.setOffline(true);
+  try {
+    await page.reload();
+    await expect(page.getByRole('heading', { name: 'Course goals' })).toBeVisible();
+  } finally {
+    await context.setOffline(false);
+  }
+});

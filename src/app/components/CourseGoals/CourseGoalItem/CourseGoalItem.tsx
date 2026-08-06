@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { DragEvent, FormEvent, useState } from "react";
 import type { GoalPriority, Subtask } from '@/shared/types/Types';
 import styles from "./CourseGoalItem.module.css";
 
@@ -18,10 +18,20 @@ type Props = {
     onAddSubtask: (goalId: string, text: string) => boolean;
     onToggleSubtask: (goalId: string, subtaskId: string) => void;
     onDeleteSubtask: (goalId: string, subtaskId: string) => void;
+    manualOrder: boolean;
+    isDragging: boolean;
+    canMoveUp: boolean;
+    canMoveDown: boolean;
+    onMoveUp: () => void;
+    onMoveDown: () => void;
+    onDragStart: (event: DragEvent<HTMLLIElement>) => void;
+    onDragEnd: () => void;
+    onDragOver: (event: DragEvent<HTMLLIElement>) => void;
+    onDrop: (event: DragEvent<HTMLLIElement>) => void;
     text: string;
 };
 
-const CourseGoalItem = ({ onDelete, onToggle, onEdit, onAddSubtask, onToggleSubtask, onDeleteSubtask, id, completed, createdAt, priority, dueDate, category, subtasks, text }: Props) => {
+const CourseGoalItem = ({ onDelete, onToggle, onEdit, onAddSubtask, onToggleSubtask, onDeleteSubtask, manualOrder, isDragging, canMoveUp, canMoveDown, onMoveUp, onMoveDown, onDragStart, onDragEnd, onDragOver, onDrop, id, completed, createdAt, priority, dueDate, category, subtasks, text }: Props) => {
     const [isEditing, setIsEditing] = useState(false);
     const [editedText, setEditedText] = useState(text);
     const [editError, setEditError] = useState('');
@@ -56,7 +66,7 @@ const CourseGoalItem = ({ onDelete, onToggle, onEdit, onAddSubtask, onToggleSubt
     const completedSubtasks = subtasks.filter((subtask) => subtask.completed).length;
 
     return (
-        <li className={`${styles['goal-item']} ${completed ? styles.completed : ''}`}>
+        <li className={`${styles['goal-item']} ${completed ? styles.completed : ''} ${isDragging ? styles.dragging : ''}`} draggable={manualOrder} onDragStart={onDragStart} onDragEnd={onDragEnd} onDragOver={onDragOver} onDrop={onDrop}>
             {isEditing ? (
                 <form className={styles['edit-form']} onSubmit={submitEditHandler}>
                     <input autoFocus value={editedText} maxLength={80} onChange={(event) => { setEditedText(event.target.value); setEditError(''); }} aria-label="Edit goal" aria-invalid={Boolean(editError)} />
@@ -81,6 +91,13 @@ const CourseGoalItem = ({ onDelete, onToggle, onEdit, onAddSubtask, onToggleSubt
                         </span>
                     </label>
                     <div className={styles.actions}>
+                        {manualOrder && (
+                            <>
+                                <button className={styles['drag-handle']} type="button" data-drag-handle aria-label={`Drag to reorder: ${text}`} title="Drag to reorder">↕</button>
+                                <button type="button" onClick={onMoveUp} disabled={!canMoveUp} aria-label={`Move up: ${text}`}>↑</button>
+                                <button type="button" onClick={onMoveDown} disabled={!canMoveDown} aria-label={`Move down: ${text}`}>↓</button>
+                            </>
+                        )}
                         <button type="button" onClick={() => { setEditedText(text); setIsEditing(true); }} aria-label={`Edit goal: ${text}`}>Edit</button>
                         <button type="button" onClick={() => onDelete(id)} aria-label={`Delete goal: ${text}`}>Delete</button>
                     </div>

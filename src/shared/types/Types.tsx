@@ -17,6 +17,7 @@ export interface CourseGoal {
   text: string;
   id: string;
   completed: boolean;
+  completedAt: string | null;
   createdAt: string;
   priority: GoalPriority;
   dueDate: string | null;
