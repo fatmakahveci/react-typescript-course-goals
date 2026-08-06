@@ -15,6 +15,7 @@ const CourseInput = ({ onAddGoal }: Props) => {
   const [enteredValue, setEnteredValue] = useState('');
   const [priority, setPriority] = useState<GoalPriority>('medium');
   const [dueDate, setDueDate] = useState('');
+  const [category, setCategory] = useState('General');
   const [error, setError] = useState('');
 
   const goalInputChangeHandler = (value: string) => {
@@ -31,7 +32,7 @@ const CourseInput = ({ onAddGoal }: Props) => {
       return;
     }
 
-    if (!onAddGoal({ text: goal, priority, dueDate: dueDate || null })) {
+    if (!onAddGoal({ text: goal, priority, dueDate: dueDate || null, category: category.trim() || 'General' })) {
       setError('This goal is already on your list.');
       return;
     }
@@ -39,6 +40,7 @@ const CourseInput = ({ onAddGoal }: Props) => {
     setEnteredValue('');
     setPriority('medium');
     setDueDate('');
+    setCategory('General');
     setError('');
   };
 
@@ -74,6 +76,10 @@ const CourseInput = ({ onAddGoal }: Props) => {
         <label>
           Due date <span>(optional)</span>
           <input type="date" value={dueDate} onChange={(event) => setDueDate(event.target.value)} />
+        </label>
+        <label>
+          Category
+          <input type="text" value={category} maxLength={30} onChange={(event) => setCategory(event.target.value)} placeholder="General" />
         </label>
       </div>
       <Button type="submit">Add goal</Button>

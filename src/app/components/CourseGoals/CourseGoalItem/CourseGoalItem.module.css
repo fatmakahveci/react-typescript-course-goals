@@ -6,6 +6,7 @@
   color: var(--color-text);
   padding: 1rem 2rem;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
@@ -54,6 +55,17 @@
   text-transform: uppercase;
 }
 
+.category {
+  display: inline-block;
+  margin-right: 0.45rem;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  padding: 0.05rem 0.4rem;
+  color: var(--color-muted);
+  font-size: 0.675rem;
+  font-weight: 700;
+}
+
 .low {
   color: #166534;
   background: #dcfce7;
@@ -79,7 +91,7 @@
 }
 
 .completed {
-  background: #f8f9fc;
+  background: color-mix(in srgb, var(--color-surface) 82%, var(--color-canvas));
   box-shadow: none;
 }
 
@@ -130,6 +142,79 @@
 .edit-form > div {
   display: flex;
   gap: 0.45rem;
+}
+
+.subtasks {
+  flex: 0 0 100%;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.subtask-heading {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.45rem;
+  color: var(--color-muted);
+  font-size: 0.78rem;
+}
+
+.subtasks ul {
+  margin: 0 0 0.6rem;
+  padding: 0;
+  list-style: none;
+}
+
+.subtasks li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.3rem 0;
+}
+
+.subtasks li label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.subtasks li label span {
+  overflow-wrap: anywhere;
+}
+
+.subtasks li input {
+  accent-color: var(--color-primary);
+}
+
+.subtasks li input:checked + span {
+  color: var(--color-muted);
+  text-decoration: line-through;
+}
+
+.subtasks li button {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+}
+
+.subtask-form {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.5rem;
+}
+
+.subtask-form input {
+  min-width: 0;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  padding: 0.45rem 0.6rem;
+  color: var(--color-text);
+  background: var(--color-surface);
+  font: inherit;
+}
+
+.subtask-error {
+  color: var(--color-danger);
 }
 
 @media (max-width: 520px) {

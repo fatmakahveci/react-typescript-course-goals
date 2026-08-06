@@ -63,6 +63,43 @@ describe('Course Goals', () => {
     expect(within(goal!).getByText(/Due Jan 15, 2027/)).toBeInTheDocument();
   });
 
+  it('adds a category and finds the goal by category', () => {
+    render(<Home />);
+
+    fireEvent.change(screen.getByLabelText('Category'), { target: { value: 'TypeScript' } });
+    addGoal('Study generics');
+
+    const goal = screen.getByText('Study generics').closest('li');
+    expect(within(goal!).getByText('TypeScript')).toBeInTheDocument();
+    fireEvent.change(screen.getByPlaceholderText('Search goals…'), { target: { value: 'typescript' } });
+    expect(screen.getByText('Study generics')).toBeInTheDocument();
+    expect(screen.queryByText('Finish the course!')).not.toBeInTheDocument();
+  });
+
+  it('adds, completes, and deletes a subtask', () => {
+    render(<Home />);
+    const goal = screen.getByText('Finish the course!').closest('li')!;
+    const subtaskInput = within(goal).getByRole('textbox', { name: 'Add a subtask to Finish the course!' });
+
+    fireEvent.change(subtaskInput, { target: { value: 'Submit the final project' } });
+    fireEvent.click(within(goal).getByRole('button', { name: 'Add' }));
+
+    const subtask = within(goal).getByText('Submit the final project');
+    fireEvent.click(subtask.closest('label')!.querySelector('input')!);
+    expect(within(goal).getByText('1/1')).toBeInTheDocument();
+    fireEvent.click(within(goal).getByRole('button', { name: 'Delete subtask: Submit the final project' }));
+    expect(within(goal).queryByText('Submit the final project')).not.toBeInTheDocument();
+  });
+
+  it('applies and persists the selected theme', async () => {
+    render(<Home />);
+
+    fireEvent.change(screen.getByLabelText('Theme'), { target: { value: 'dark' } });
+
+    await waitFor(() => expect(document.documentElement).toHaveAttribute('data-theme', 'dark'));
+    expect(window.localStorage.getItem('course-goals-theme')).toBe('dark');
+  });
+
   it('sorts goals by priority', () => {
     render(<Home />);
 

@@ -22,6 +22,8 @@ Current version: **v1.2.0**
 - Character limit with a live character counter
 - Goal creation dates
 - Edit existing goals
+- Organize goals with custom categories
+- Break goals into trackable subtasks
 - Low, medium, and high priority levels
 - Due dates and overdue indicators
 - Sort by date, priority, or due date
@@ -29,6 +31,7 @@ Current version: **v1.2.0**
 - Persistent browser storage
 - Keyboard and screen reader friendly interface
 - Responsive design for mobile screens
+- Light, dark, and system theme modes
 - Custom color system and favicon
 
 > Goals are stored in the browser's local storage and remain available after the page is refreshed.

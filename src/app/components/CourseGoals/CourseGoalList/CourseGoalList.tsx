@@ -9,9 +9,12 @@ type Props = {
     onDeleteItem: (id: string) => void;
     onToggleItem: (id: string) => void;
     onEditItem: (id: string, text: string) => boolean;
+    onAddSubtask: (goalId: string, text: string) => boolean;
+    onToggleSubtask: (goalId: string, subtaskId: string) => void;
+    onDeleteSubtask: (goalId: string, subtaskId: string) => void;
 }
 
-const CourseGoalList = ({ items, onDeleteItem, onToggleItem, onEditItem }: Props) => {
+const CourseGoalList = ({ items, onDeleteItem, onToggleItem, onEditItem, onAddSubtask, onToggleSubtask, onDeleteSubtask }: Props) => {
     return (
         <ul className={`${styles['goal-list']}`}>
             {items.map((goal) => (
@@ -22,9 +25,14 @@ const CourseGoalList = ({ items, onDeleteItem, onToggleItem, onEditItem }: Props
                     createdAt={goal.createdAt}
                     priority={goal.priority}
                     dueDate={goal.dueDate}
+                    category={goal.category}
+                    subtasks={goal.subtasks}
                     onDelete={onDeleteItem}
                     onToggle={onToggleItem}
                     onEdit={onEditItem}
+                    onAddSubtask={onAddSubtask}
+                    onToggleSubtask={onToggleSubtask}
+                    onDeleteSubtask={onDeleteSubtask}
                     text={goal.text}
                 />
             ))}

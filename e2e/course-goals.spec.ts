@@ -9,7 +9,7 @@ test.beforeEach(async ({ page }) => {
 
 test('manages a goal from creation through completion', async ({ page }) => {
   await page.getByRole('textbox', { name: 'Course goal' }).fill('Complete the TypeScript project');
-  await page.locator('#goal-form select').selectOption('high');
+  await page.locator('select').filter({ has: page.locator('option[value="high"]') }).selectOption('high');
   await page.locator('#goal-form input[type="date"]').fill('2027-01-15');
   await page.getByRole('button', { name: 'Add goal' }).click();
 
@@ -61,4 +61,23 @@ test('fits the viewport without horizontal overflow', async ({ page }) => {
   }));
 
   expect(dimensions.documentWidth).toBeLessThanOrEqual(dimensions.viewportWidth);
+});
+
+test('uses categories, subtasks, and a persistent dark theme', async ({ page }) => {
+  await page.getByLabel('Theme').selectOption('dark');
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+  await page.getByLabel('Category').fill('TypeScript');
+  await page.getByRole('textbox', { name: 'Course goal' }).fill('Master advanced types');
+  await page.getByRole('button', { name: 'Add goal' }).click();
+
+  const goal = page.getByRole('listitem').filter({ hasText: 'Master advanced types' }).first();
+  await expect(goal).toContainText('TypeScript');
+  await goal.getByRole('textbox', { name: 'Add a subtask to Master advanced types' }).fill('Practice generics');
+  await goal.getByRole('button', { name: 'Add', exact: true }).click();
+  await goal.getByText('Practice generics').click();
+  await expect(goal).toContainText('1/1');
+
+  await page.reload();
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+  await expect(page.getByText('Practice generics')).toBeVisible();
 });

@@ -1,20 +1,23 @@
 "use client";
 
 import { ChangeEvent, useEffect, useMemo, useState, useSyncExternalStore } from 'react';
-import type { CourseGoal, GoalDraft, GoalPriority } from '@/shared/types/Types';
+import type { CourseGoal, GoalDraft, GoalPriority, Subtask } from '@/shared/types/Types';
 import CourseGoalList from './components/CourseGoals/CourseGoalList/CourseGoalList';
 import CourseInput from './components/CourseGoals/CourseInput/CourseInput';
 
 const INITIAL_GOALS: CourseGoal[] = [
-  { text: 'Do all exercises!', id: 'g1', completed: false, createdAt: '2026-08-05T09:00:00.000Z', priority: 'high', dueDate: null },
-  { text: 'Finish the course!', id: 'g2', completed: false, createdAt: '2026-08-05T09:05:00.000Z', priority: 'medium', dueDate: null },
+  { text: 'Do all exercises!', id: 'g1', completed: false, createdAt: '2026-08-05T09:00:00.000Z', priority: 'high', dueDate: null, category: 'Practice', subtasks: [] },
+  { text: 'Finish the course!', id: 'g2', completed: false, createdAt: '2026-08-05T09:05:00.000Z', priority: 'medium', dueDate: null, category: 'Course', subtasks: [] },
 ];
 
 const STORAGE_KEY = 'course-goals';
 const STORAGE_EVENT = 'course-goals-change';
+const THEME_STORAGE_KEY = 'course-goals-theme';
+const THEME_EVENT = 'course-goals-theme-change';
 const INITIAL_GOALS_JSON = JSON.stringify(INITIAL_GOALS);
 type GoalFilter = 'all' | 'active' | 'completed';
 type GoalSort = 'newest' | 'oldest' | 'priority' | 'due-date';
+type ThemePreference = 'system' | 'light' | 'dark';
 const PRIORITY_ORDER: Record<GoalPriority, number> = { high: 0, medium: 1, low: 2 };
 
 const subscribeToGoals = (callback: () => void) => {
@@ -28,6 +31,19 @@ const subscribeToGoals = (callback: () => void) => {
 
 const getGoalsSnapshot = () => window.localStorage.getItem(STORAGE_KEY) ?? INITIAL_GOALS_JSON;
 const getServerGoalsSnapshot = () => INITIAL_GOALS_JSON;
+const subscribeToTheme = (callback: () => void) => {
+  window.addEventListener('storage', callback);
+  window.addEventListener(THEME_EVENT, callback);
+  return () => {
+    window.removeEventListener('storage', callback);
+    window.removeEventListener(THEME_EVENT, callback);
+  };
+};
+const getThemeSnapshot = (): ThemePreference => {
+  const storedTheme = window.localStorage.getItem(THEME_STORAGE_KEY);
+  return storedTheme === 'light' || storedTheme === 'dark' ? storedTheme : 'system';
+};
+const getServerThemeSnapshot = (): ThemePreference => 'system';
 
 const parseGoals = (snapshot: string, fallback: CourseGoal[] = INITIAL_GOALS): CourseGoal[] => {
   try {
@@ -46,6 +62,12 @@ const parseGoals = (snapshot: string, fallback: CourseGoal[] = INITIAL_GOALS): C
           : new Date(0).toISOString(),
         priority: ['low', 'medium', 'high'].includes(goal.priority ?? '') ? goal.priority as GoalPriority : 'medium',
         dueDate: typeof goal.dueDate === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(goal.dueDate) ? goal.dueDate : null,
+        category: typeof goal.category === 'string' && goal.category.trim() ? goal.category.trim().slice(0, 30) : 'General',
+        subtasks: Array.isArray(goal.subtasks)
+          ? goal.subtasks.filter((subtask): subtask is Subtask =>
+            typeof subtask?.id === 'string' && typeof subtask?.text === 'string',
+          ).map((subtask) => ({ ...subtask, completed: Boolean(subtask.completed) }))
+          : [],
       }));
   } catch {
     return fallback;
@@ -59,6 +81,7 @@ export default function Home() {
   const [searchTerm, setSearchTerm] = useState('');
   const [sort, setSort] = useState<GoalSort>('newest');
   const [backupMessage, setBackupMessage] = useState('');
+  const theme = useSyncExternalStore(subscribeToTheme, getThemeSnapshot, getServerThemeSnapshot);
 
   useEffect(() => {
     document.documentElement.dataset.hydrated = 'true';
@@ -66,6 +89,24 @@ export default function Home() {
       delete document.documentElement.dataset.hydrated;
     };
   }, []);
+
+  useEffect(() => {
+    const media = window.matchMedia('(prefers-color-scheme: dark)');
+    const applyTheme = () => {
+      document.documentElement.dataset.theme = theme === 'system'
+        ? media.matches ? 'dark' : 'light'
+        : theme;
+    };
+    applyTheme();
+    media.addEventListener('change', applyTheme);
+    return () => media.removeEventListener('change', applyTheme);
+  }, [theme]);
+
+  const setThemeHandler = (preference: ThemePreference) => {
+    if (preference === 'system') window.localStorage.removeItem(THEME_STORAGE_KEY);
+    else window.localStorage.setItem(THEME_STORAGE_KEY, preference);
+    window.dispatchEvent(new Event(THEME_EVENT));
+  };
 
   const updateGoals = (update: (goals: CourseGoal[]) => CourseGoal[]) => {
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(update(courseGoals)));
@@ -84,6 +125,7 @@ export default function Home() {
         id: crypto.randomUUID(),
         completed: false,
         createdAt: new Date().toISOString(),
+        subtasks: [],
       },
       ...previousGoals,
     ]);
@@ -114,6 +156,28 @@ export default function Home() {
         goal.id === goalId ? { ...goal, completed: !goal.completed } : goal,
       ),
     );
+  };
+
+  const addSubtaskHandler = (goalId: string, text: string) => {
+    const normalizedText = text.trim();
+    const goal = courseGoals.find((item) => item.id === goalId);
+    if (!normalizedText || goal?.subtasks.some((subtask) => subtask.text.toLocaleLowerCase() === normalizedText.toLocaleLowerCase())) return false;
+    updateGoals((previousGoals) => previousGoals.map((item) => item.id === goalId
+      ? { ...item, subtasks: [...item.subtasks, { id: crypto.randomUUID(), text: normalizedText, completed: false }] }
+      : item));
+    return true;
+  };
+
+  const toggleSubtaskHandler = (goalId: string, subtaskId: string) => {
+    updateGoals((previousGoals) => previousGoals.map((goal) => goal.id === goalId
+      ? { ...goal, subtasks: goal.subtasks.map((subtask) => subtask.id === subtaskId ? { ...subtask, completed: !subtask.completed } : subtask) }
+      : goal));
+  };
+
+  const deleteSubtaskHandler = (goalId: string, subtaskId: string) => {
+    updateGoals((previousGoals) => previousGoals.map((goal) => goal.id === goalId
+      ? { ...goal, subtasks: goal.subtasks.filter((subtask) => subtask.id !== subtaskId) }
+      : goal));
   };
 
   const clearCompletedHandler = () => {
@@ -156,7 +220,8 @@ export default function Home() {
       const matchesFilter = filter === 'all'
         || (filter === 'active' && !goal.completed)
         || (filter === 'completed' && goal.completed);
-      return matchesFilter && goal.text.toLocaleLowerCase().includes(normalizedSearch);
+      return matchesFilter && [goal.text, goal.category, ...goal.subtasks.map((subtask) => subtask.text)]
+        .some((value) => value.toLocaleLowerCase().includes(normalizedSearch));
     });
     return [...filteredGoals].sort((first, second) => {
       if (sort === 'oldest') return first.createdAt.localeCompare(second.createdAt);
@@ -169,7 +234,17 @@ export default function Home() {
   return (
     <main>
       <section id="goal-form" aria-labelledby="page-title">
-        <h1 id="page-title">Course goals</h1>
+        <div className="page-heading">
+          <h1 id="page-title">Course goals</h1>
+          <label className="theme-control">
+            <span>Theme</span>
+            <select value={theme} onChange={(event) => setThemeHandler(event.target.value as ThemePreference)}>
+              <option value="system">System</option>
+              <option value="light">Light</option>
+              <option value="dark">Dark</option>
+            </select>
+          </label>
+        </div>
         <p className="intro">Keep your learning targets clear and actionable.</p>
         <CourseInput onAddGoal={addGoalHandler} />
       </section>
@@ -219,7 +294,15 @@ export default function Home() {
         {backupMessage && <p className="backup-message" role="status">{backupMessage}</p>}
 
         {visibleGoals.length > 0 ? (
-          <CourseGoalList items={visibleGoals} onDeleteItem={deleteItemHandler} onToggleItem={toggleItemHandler} onEditItem={editItemHandler} />
+          <CourseGoalList
+            items={visibleGoals}
+            onDeleteItem={deleteItemHandler}
+            onToggleItem={toggleItemHandler}
+            onEditItem={editItemHandler}
+            onAddSubtask={addSubtaskHandler}
+            onToggleSubtask={toggleSubtaskHandler}
+            onDeleteSubtask={deleteSubtaskHandler}
+          />
         ) : (
           <p className="empty-state">
             {courseGoals.length === 0 ? 'No goals yet. Add your first one above.' : 'No goals match this view.'}

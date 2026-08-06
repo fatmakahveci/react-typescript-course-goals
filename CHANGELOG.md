@@ -4,6 +4,13 @@ All notable changes to this project are documented in this file.
 
 ## [Unreleased]
 
+### Added
+
+- Goal categories with category-aware search
+- Per-goal subtasks with completion tracking
+- Persistent light, dark, and system theme preferences
+- Responsive end-to-end coverage for desktop, tablet, and mobile layouts
+
 ## [1.2.0] - 2026-08-06
 
 ### Added
