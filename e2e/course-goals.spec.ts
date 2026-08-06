@@ -40,3 +40,25 @@ test('keeps goals after a page reload', async ({ page }) => {
 
   await expect(page.getByText('Persist this goal')).toBeVisible();
 });
+
+test('fits the viewport without horizontal overflow', async ({ page }) => {
+  await page.getByRole('textbox', { name: 'Course goal' }).fill(
+    'Build a responsive course project with a deliberately long goal title',
+  );
+  await page.getByRole('button', { name: 'Add goal' }).click();
+
+  await expect(page.getByRole('heading', { name: 'Course goals' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Export' })).toBeVisible();
+  await expect(
+    page.getByRole('button', {
+      name: 'Edit goal: Build a responsive course project with a deliberately long goal title',
+    }),
+  ).toBeVisible();
+
+  const dimensions = await page.evaluate(() => ({
+    viewportWidth: window.innerWidth,
+    documentWidth: document.documentElement.scrollWidth,
+  }));
+
+  expect(dimensions.documentWidth).toBeLessThanOrEqual(dimensions.viewportWidth);
+});
