@@ -32,3 +32,11 @@ npm run build
 Use the provided issue templates. Search existing issues before opening a new one. Security vulnerabilities must be reported privately according to [SECURITY.md](SECURITY.md).
 
 By participating, you agree to follow the [Code of Conduct](CODE_OF_CONDUCT.md).
+
+## Releases
+
+1. Update the package version, README, and changelog in a release pull request.
+2. Merge the release pull request after all required checks pass.
+3. Create and push the matching annotated `v*` tag from the merged `main` commit.
+4. The npm publishing workflow uses OpenID Connect trusted publishing; no npm token is stored in GitHub.
+5. Verify the GitHub Release, npm package, provenance statement, and GitHub Package after publishing.

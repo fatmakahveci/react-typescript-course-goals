@@ -4,6 +4,10 @@ All notable changes to this project are documented in this file.
 
 ## [Unreleased]
 
+### Security
+
+- Added token-free npm trusted publishing with GitHub Actions OIDC and automatic provenance
+
 ## [1.3.0] - 2026-08-06
 
 ### Added
