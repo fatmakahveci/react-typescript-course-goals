@@ -4,6 +4,8 @@ All notable changes to this project are documented in this file.
 
 ## [Unreleased]
 
+## [1.4.0] - 2026-08-06
+
 ### Added
 
 - Installable Progressive Web App with a same-origin offline cache
