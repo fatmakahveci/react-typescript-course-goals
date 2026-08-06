@@ -4,6 +4,8 @@ All notable changes to this project are documented in this file.
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-08-06
+
 ### Added
 
 - Goal categories with category-aware search
