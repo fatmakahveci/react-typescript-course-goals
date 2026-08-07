@@ -9,6 +9,10 @@ A simple course goal tracker built with Next.js, React, and TypeScript.
 
 Current version: **v1.4.0**
 
+## Demo
+
+![Course Goals demo](demo.gif)
+
 ## Features
 
 - Add new course goals
