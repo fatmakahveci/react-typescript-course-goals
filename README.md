@@ -142,3 +142,10 @@ Contributions are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md), follow the [
 ## License
 
 This project is available under the [MIT License](LICENSE.md).
+
+## Project Resources
+
+- [Changelog](CHANGELOG.md)
+- [Contributing guide](.github/CONTRIBUTING.md)
+- [Security policy](.github/SECURITY.md)
+- [License](LICENSE.md)
