@@ -57,7 +57,7 @@ The install prompt and service worker are enabled in production builds. After th
 
 ## Requirements
 
-- Node.js 20.9 or later
+- Node.js 22.22.2+, 24.15.0+, or 26+ (including the test tooling requirements)
 - npm
 
 ## Installation
